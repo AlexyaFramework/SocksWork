@@ -5,14 +5,15 @@ use \Alexya\SocksWork\Encoder;
 
 /**
  * Secure encoder.
+ * ===============
  *
  * This encoder works as a layer for encrypting the data to send.
  *
  * The constructor accepts as parameter another encoder (this will be the actual encoder)
- * and a string being the algorythm where to encrypt the result.
+ * and a string being the algorithm where to encrypt the result.
  *
  * If the second parameter is a callback, it must accept a string as parameter that is the packet to encrypt
- * and a boolean indicating wether if the parameter needs to be encrypted (true) or decrypted (false).
+ * and a boolean indicating whether if the parameter needs to be encrypted (true) or decrypted (false).
  *
  * Example:
  *
@@ -45,27 +46,27 @@ class Secure extends Encoder
     /**
      * Encoder.
      *
-     * @var \Alexya\SocksWork\Encoder
+     * @var Encoder
      */
     private $_encoder = null;
 
     /**
-     * Encrypt algorythm.
+     * Encrypt algorithm.
      *
      * @var string
      */
-    private $_algorythm = "base64";
+    private $_algorithm = "base64";
 
     /**
      * Constructor.
      *
-     * @param \Alexya\SocksWork\Encoder $encoder  Encoder on which the packet will be encoded.
-     * @param string|callable           $algoryth Encryption algorith (by default Base64).
+     * @param Encoder         $encoder   Encoder on which the packet will be encoded.
+     * @param string|callable $algorithm Encryption algorithm (by default Base64).
      */
-    public function __construct(Encoder $encoder, $algorythm = "base64")
+    public function __construct(Encoder $encoder, $algorithm = "base64")
     {
         $this->_encoder   = $encoder;
-        $this->_algorythm = $algorythm;
+        $this->_algorithm = $algorithm;
     }
 
     /**
@@ -73,11 +74,11 @@ class Secure extends Encoder
      */
     public function getOutputBufferAsString() : string
     {
-        if(is_callable($this->_algorythm)) {
-            return $this->_algorythm($this->_encoder->getOutputBufferAsString(), true);
+        if(is_callable($this->_algorithm)) {
+            return ($this->_algorithm)($this->_encoder->getOutputBufferAsString(), true);
         }
 
-        switch(strtolower($this->_algorythm))
+        switch(strtolower($this->_algorithm))
         {
             case "base64":
             default:
@@ -89,14 +90,14 @@ class Secure extends Encoder
     /**
      * @inheritDoc
      */
-    public function read()
+    public function read() : void
     {
         $inputBuffer = $this->_inputBuffer;
 
-        if(is_callable($this->_algorythm)) {
-            $inputBuffer = $this->_algorythm($inputBuffer, false);
+        if(is_callable($this->_algorithm)) {
+            $inputBuffer = ($this->_algorithm)($inputBuffer, false);
         } else {
-            switch(strtolower($this->_algorythm))
+            switch(strtolower($this->_algorithm))
             {
                 case "base64":
                 default:
@@ -112,7 +113,7 @@ class Secure extends Encoder
     /**
      * @inheritDoc
      */
-    public function write()
+    public function write() : void
     {
         $this->_encoder->write();
     }
@@ -120,7 +121,7 @@ class Secure extends Encoder
     /**
      * @inheritDoc
      */
-    public function writeString(string $str, string $name = "")
+    public function writeString(string $str, string $name = "") : void
     {
         $this->_encoder->writeString($str, $name);
     }
@@ -129,7 +130,7 @@ class Secure extends Encoder
     /**
      * @inheritDoc
      */
-    public function writeShort(int $s, string $name = "")
+    public function writeShort(int $s, string $name = "") : void
     {
         $this->_encoder->writeShort($s, $name);
     }
@@ -137,7 +138,7 @@ class Secure extends Encoder
     /**
      * @inheritDoc
      */
-    public function writeInteger(int $i, string $name = "")
+    public function writeInteger(int $i, string $name = "") : void
     {
         $this->_encoder->writeInteger($i, $name);
     }
@@ -145,7 +146,7 @@ class Secure extends Encoder
     /**
      * @inheritDoc
      */
-    public function writeBoolean(bool $b, string $name = "")
+    public function writeBoolean(bool $b, string $name = "") : void
     {
         $this->_encoder->writeBoolean($b, $name);
     }
@@ -153,7 +154,7 @@ class Secure extends Encoder
     /**
      * @inheritDoc
      */
-    public function writeByte(int $byte, string $name = "")
+    public function writeByte(int $byte, string $name = "") : void
     {
         $this->_encoder->writeByte($byte, $name);
     }
@@ -161,7 +162,7 @@ class Secure extends Encoder
     /**
      * @inheritDoc
      */
-    public function writeByteArray(array $bytes, string $name = "")
+    public function writeByteArray(array $bytes, string $name = "") : void
     {
         $this->_encoder->writeByteArray($bytes, $name);
     }
@@ -171,7 +172,7 @@ class Secure extends Encoder
      */
     public function readString(string $name = "") : string
     {
-        $str = $this->_encoder->readString($name);
+        return $this->_encoder->readString($name);
     }
 
     /**
@@ -209,7 +210,7 @@ class Secure extends Encoder
     /**
      * @inheritDoc
      */
-    public function readByteArray(int $legnth, string $name = "") : array
+    public function readByteArray(int $length, string $name = "") : array
     {
         return $this->_encoder->readByteArray($length, $name);
     }

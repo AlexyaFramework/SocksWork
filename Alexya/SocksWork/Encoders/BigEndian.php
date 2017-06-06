@@ -5,6 +5,7 @@ use \Alexya\SocksWork\Encoder;
 
 /**
  * Big endian encoder.
+ * ===================
  *
  * This encoder builds a byte array and packs all values with big endian.
  * Example:
@@ -45,7 +46,7 @@ class BigEndian extends Encoder
     /**
      * @inheritdoc
      */
-    public function read()
+    public function read() : void
     {
         $this->_i = 0;
     }
@@ -53,15 +54,15 @@ class BigEndian extends Encoder
     /**
      * @inheritdoc
      */
-    public function write()
+    public function write() : void
     {
-        $this->_outputBuffer = []; //asure it's empty
+        $this->_outputBuffer = []; //assure it's empty
     }
 
     /**
      * @inheritdoc
      */
-    public function writeString(string $str, string $name = "")
+    public function writeString(string $str, string $name = "") : void
     {
         $this->writeShort(strlen($str));
 
@@ -73,7 +74,7 @@ class BigEndian extends Encoder
     /**
      * @inheritdoc
      */
-    public function writeShort(int $s, string $name = "")
+    public function writeShort(int $s, string $name = "") : void
     {
         $this->writeByte(($s >> 8) & 0xFF);
         $this->writeByte(($s >> 0) & 0xFF);
@@ -82,18 +83,18 @@ class BigEndian extends Encoder
     /**
      * @inheritdoc
      */
-    public function writeInteger(int $i, string $name = "")
+    public function writeInteger(int $i, string $name = "") : void
     {
-        $this->writeByte(($n >> 24) & 0xFF);
-        $this->writeByte(($n >> 16) & 0xFF);
-        $this->writeByte(($n >> 8) & 0xFF);
-        $this->writeByte(($n >> 0) & 0xFF);
+        $this->writeByte(($i >> 24) & 0xFF);
+        $this->writeByte(($i >> 16) & 0xFF);
+        $this->writeByte(($i >> 8) & 0xFF);
+        $this->writeByte(($i >> 0) & 0xFF);
     }
 
     /**
      * @inheritdoc
      */
-    public function writeBoolean(bool $b, string $name = "")
+    public function writeBoolean(bool $b, string $name = "") : void
     {
         if($b) {
             $this->writeByte(1);
@@ -105,7 +106,7 @@ class BigEndian extends Encoder
     /**
      * @inheritdoc
      */
-    public function writeByte(int $byte, string $name = "")
+    public function writeByte(int $byte, string $name = "") : void
     {
         $this->_outputBuffer[] = $byte;
     }
@@ -113,7 +114,7 @@ class BigEndian extends Encoder
     /**
      * @inheritdoc
      */
-    public function writeByteArray(array $bytes, string $name = "")
+    public function writeByteArray(array $bytes, string $name = "") : void
     {
         $this->_outputBuffer = array_merge($this->_outputBuffer, $bytes);
     }
@@ -176,11 +177,11 @@ class BigEndian extends Encoder
     /**
      * @inheritdoc
      */
-    public function readByteArray(int $legnth, string $name = "") : array
+    public function readByteArray(int $length, string $name = "") : array
     {
         $bytes = [];
 
-        for($i = 0; $i < $legnth; $i++) {
+        for($i = 0; $i < $length; $i++) {
             $bytes[] = $this->readByte();
         }
 

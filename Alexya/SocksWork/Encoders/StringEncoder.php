@@ -60,7 +60,7 @@ class StringEncoder extends Encoder
     /**
      * @inheritDoc
      */
-    public function read()
+    public function read() : void
     {
         $this->_inputBuffer = explode($this->_delimiter, $this->_rawInput);
     }
@@ -68,15 +68,15 @@ class StringEncoder extends Encoder
     /**
      * @inheritDoc
      */
-    public function write()
+    public function write() : void
     {
-        $this->_outputBuffer = []; //asuer it's empty
+        $this->_outputBuffer = []; //assure it's empty
     }
 
     /**
      * @inheritDoc
      */
-    public function writeString(string $str)
+    public function writeString(string $str, string $name = "") : void
     {
         $this->_outputBuffer[] = $str;
     }
@@ -85,7 +85,7 @@ class StringEncoder extends Encoder
     /**
      * @inheritDoc
      */
-    public function writeShort(int $s)
+    public function writeShort(int $s, string $name = "") : void
     {
         $this->_outputBuffer[] = $s;
     }
@@ -93,7 +93,7 @@ class StringEncoder extends Encoder
     /**
      * @inheritDoc
      */
-    public function writeInteger(int $i)
+    public function writeInteger(int $i, string $name = "") : void
     {
         $this->_outputBuffer[] = $i;
     }
@@ -101,7 +101,7 @@ class StringEncoder extends Encoder
     /**
      * @inheritDoc
      */
-    public function writeBoolean(bool $b)
+    public function writeBoolean(bool $b, string $name = "") : void
     {
         $this->_outputBuffer[] = $b;
     }
@@ -109,7 +109,7 @@ class StringEncoder extends Encoder
     /**
      * @inheritDoc
      */
-    public function writeByte(int $byte)
+    public function writeByte(int $byte, string $name = "") : void
     {
         $this->_outputBuffer[] = $byte;
     }
@@ -117,7 +117,7 @@ class StringEncoder extends Encoder
     /**
      * @inheritDoc
      */
-    public function writeByteArray(array $bytes)
+    public function writeByteArray(array $bytes, string $name = "") : void
     {
         $this->_outputBuffer[] = array_merge($this->_outputBuffer, $bytes);
     }
@@ -125,7 +125,7 @@ class StringEncoder extends Encoder
     /**
      * @inheritDoc
      */
-    public function readString() : string
+    public function readString(string $name = "") : string
     {
         return $this->_inputBuffer[$this->_i++];
     }
@@ -133,7 +133,7 @@ class StringEncoder extends Encoder
     /**
      * @inheritDoc
      */
-    public function readShort() : int
+    public function readShort(string $name = "") : int
     {
         return (int)$this->_inputBuffer[$this->_i++];
     }
@@ -141,7 +141,7 @@ class StringEncoder extends Encoder
     /**
      * @inheritDoc
      */
-    public function readInteger() : int
+    public function readInteger(string $name = "") : int
     {
         return (int)$this->_inputBuffer[$this->_i++];
     }
@@ -149,7 +149,7 @@ class StringEncoder extends Encoder
     /**
      * @inheritDoc
      */
-    public function readBoolean() : bool
+    public function readBoolean(string $name = "") : bool
     {
         $b = $this->_inputBuffer[$this->_i++];
 
@@ -166,7 +166,7 @@ class StringEncoder extends Encoder
     /**
      * @inheritDoc
      */
-    public function readByte() : int
+    public function readByte(string $name = "") : int
     {
         return (int)$this->_inputBuffer[$this->_i++];
     }
@@ -174,7 +174,7 @@ class StringEncoder extends Encoder
     /**
      * @inheritDoc
      */
-    public function readByteArray(int $legnth) : array
+    public function readByteArray(int $length, string $name = "") : array
     {
         $arr = [];
 

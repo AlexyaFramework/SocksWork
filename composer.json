@@ -1,26 +1,26 @@
 {
-	"name": "alexya-framework/sockswork",
-	"type": "framework",
+    "name": "alexya-framework/sockswork",
+    "type": "framework",
     "version": "3.0.1",
-	"description": "Alexya's SocksWork components",
-	"keywords": ["php", "framework", "sockswork", "sockets", "php7", "alexya"],
-	"license": "GNU",
+    "description": "Alexya's SocksWork components",
+    "keywords": ["php", "framework", "sockswork", "sockets", "php7", "alexya"],
+    "license": "GNU",
     "support": {
         "issues": "https://github.com/AlexyaFramework/SocksWork/issues",
         "source": "https://github.com/AlexyaFramework/SocksWork"
     },
-	"authors": [
-		{
+    "authors": [
+        {
             "name": "Manulaiko",
             "email": "manulaiko@gmail.com"
         }
-	],
-	"require": {
-		"php": ">=7.0"
+    ],
+    "require": {
+        "php": ">=7.1"
     },
-	"autoload": {
-		"psr-4": {
+    "autoload": {
+        "psr-4": {
             "Alexya\\": "Alexya"
         }
-	}
+    }
 }
