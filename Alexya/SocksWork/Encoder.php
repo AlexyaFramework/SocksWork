@@ -3,6 +3,7 @@ namespace Alexya\SocksWork;
 
 /**
  * Abstract encoder class.
+ * =======================
  *
  * This is the base class for all encoders.
  *
@@ -40,7 +41,7 @@ abstract class Encoder
      *
      * @param string $inputBuffer Server's response.
      */
-    public function setInputBuffer(string $inputBuffer)
+    public function setInputBuffer(string $inputBuffer) : void
     {
         $this->_rawInput    = $inputBuffer;
         $this->_inputBuffer = unpack("C*", $inputBuffer);
@@ -71,7 +72,7 @@ abstract class Encoder
      *
      * @param array $outputBuffer Output buffer.
      */
-    public function setRawInput(array $outputBuffer)
+    public function setRawInput(array $outputBuffer) : void
     {
         $this->_outputBuffer = $outputBuffer;
     }
@@ -102,100 +103,117 @@ abstract class Encoder
      *
      * Sets everything needed for reading the response.
      */
-    public abstract function read();
+    public abstract function read() : void;
 
     /**
      * Starts writing the packet.
      *
      * Sets everything needed for writing the packet.
      */
-    public abstract function write();
+    public abstract function write() : void;
 
     /**
      * Adds a string to the output buffer.
      *
      * @param string $str  String to write.
+     * @param string $name Name of the parameter.
      */
-    public abstract function writeString(string $str);
+    public abstract function writeString(string $str, string $name) : void;
 
     /**
      * Adds a short integer to the output buffer.
      *
-     * @param int $s Short to write.
+     * @param int    $s    Short to write.
+     * @param string $name Name of the parameter.
      */
-    public abstract function writeShort(int $s);
+    public abstract function writeShort(int $s, string $name) : void;
 
     /**
      * Adds an integer to the output buffer.
      *
-     * @param int $i Integer to write.
+     * @param int    $i     Integer to write.
+     * @param string $name  Name of the parameter.
      */
-    public abstract function writeInteger(int $i);
+    public abstract function writeInteger(int $i, string $name) : void;
 
     /**
      * Adds a boolean to the output buffer.
      *
-     * @param bool $b Boolean to write.
+     * @param bool   $b    Boolean to write.
+     * @param string $name Name of the parameter.
      */
-    public abstract function writeBoolean(bool $b);
+    public abstract function writeBoolean(bool $b, string $name) : void;
 
     /**
      * Adds a byte to the output buffer.
      *
-     * @param int $byte Byte to write.
+     * @param int    $byte Byte to write.
+     * @param string $name Name of the parameter.
      */
-    public abstract function writeByte(int $byte);
+    public abstract function writeByte(int $byte, string $name) : void;
 
     /**
      * Adds a byte array to the output buffer.
      *
-     * @param array $bytes Byte array to write.
+     * @param array  $bytes Byte array to write.
+     * @param string $name  Name of the parameter.
      */
-    public abstract function writeByteArray(array $bytes);
+    public abstract function writeByteArray(array $bytes, string $name) : void;
 
     /**
      * Retrieves a string from the input buffer.
      *
+     * @param string $name Name of the parameter.
+     *
      * @return string Next string.
      */
-    public abstract function readString() : string;
+    public abstract function readString(string $name) : string;
 
     /**
      * Retrieves a short integer from the input buffer.
      *
+     * @param string $name Name of the parameter.
+     *
      * @return int Next 2 bytes integer.
      */
-    public abstract function readShort() : int;
+    public abstract function readShort(string $name) : int;
 
     /**
      * Retrieves an integer from the input buffer.
      *
+     * @param string $name Name of the parameter.
+     *
      * @return int Next 4 bytes integer.
      */
-    public abstract function readInteger() : int;
+    public abstract function readInteger(string $name) : int;
 
     /**
      * Retrieves a boolean from the input buffer.
      *
+     * @param string $name Name of the parameter.
+     *
      * @return bool Next byte as a boolean.
      */
-    public abstract function readBoolean() : bool;
+    public abstract function readBoolean(string $name) : bool;
 
     /**
      * Retrieves a byte from the input buffer.
      *
+     * @param string $name Name of the parameter.
+     *
      * @return int Next byte.
      */
-    public abstract function readByte() : int;
+    public abstract function readByte(string $name) : int;
 
     /**
      * Retrieves an integer from the input buffer.
      *
-     * @param int $length Length of the byte array.
+     * @param int    $length Length of the byte array.
+     * @param string $name   Name of the parameter.
      *
      * @return array $length array with input buffer bytes.
      */
-    public abstract function readByteArray(int $length) : array;
+    public abstract function readByteArray(int $length, string $name) : array;
     //////////////////////////
     // End abstract methods //
     //////////////////////////

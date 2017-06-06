@@ -5,6 +5,7 @@ use \Alexya\SocksWork\Encoder;
 
 /**
  * Little endian encoder.
+ * ======================
  *
  * This encoder builds a byte array and packs all values with little endian.
  *
@@ -36,7 +37,7 @@ class LittleEndian extends Encoder
     {
         $binary = "";
 
-        foreach($this->byteArray as $byte) {
+        foreach($this->_outputBuffer as $byte) {
             $binary .= pack("c", $byte);
         }
 
@@ -46,7 +47,7 @@ class LittleEndian extends Encoder
     /**
      * @inheritDoc
      */
-    public function read()
+    public function read() : void
     {
         $this->_i = 0;
     }
@@ -54,15 +55,15 @@ class LittleEndian extends Encoder
     /**
      * @inheritDoc
      */
-    public function write()
+    public function write() : void
     {
-        $this->_outputBuffer = []; //asuer it's empty
+        $this->_outputBuffer = []; //assure it's empty
     }
 
     /**
      * @inheritDoc
      */
-    public function writeString(string $str)
+    public function writeString(string $str, string $name = "") : void
     {
         $this->writeShort(strlen($str));
 
@@ -75,7 +76,7 @@ class LittleEndian extends Encoder
     /**
      * @inheritDoc
      */
-    public function writeShort(int $s)
+    public function writeShort(int $s, string $name = "") : void
     {
         $this->writeByte(($s >> 0) & 0xFF);
         $this->writeByte(($s >> 8) & 0xFF);
@@ -84,18 +85,18 @@ class LittleEndian extends Encoder
     /**
      * @inheritDoc
      */
-    public function writeInteger(int $i)
+    public function writeInteger(int $i, string $name = "") : void
     {
-        $this->writeByte(($n >> 0) & 0xFF);
-        $this->writeByte(($n >> 8) & 0xFF);
-        $this->writeByte(($n >> 16) & 0xFF);
-        $this->writeByte(($n >> 24) & 0xFF);
+        $this->writeByte(($i >> 0) & 0xFF);
+        $this->writeByte(($i >> 8) & 0xFF);
+        $this->writeByte(($i >> 16) & 0xFF);
+        $this->writeByte(($i >> 24) & 0xFF);
     }
 
     /**
      * @inheritDoc
      */
-    public function writeBoolean(bool $b)
+    public function writeBoolean(bool $b, string $name = "") : void
     {
         if($b) {
             $this->writeByte(1);
@@ -107,7 +108,7 @@ class LittleEndian extends Encoder
     /**
      * @inheritDoc
      */
-    public function writeByte(int $byte)
+    public function writeByte(int $byte, string $name = "") : void
     {
         $this->_outputBuffer[] = $byte;
     }
@@ -115,7 +116,7 @@ class LittleEndian extends Encoder
     /**
      * @inheritDoc
      */
-    public function writeByteArray(array $bytes)
+    public function writeByteArray(array $bytes, string $name = "") : void
     {
         $this->_outputBuffer = array_merge($this->_outputBuffer, $bytes);
     }
@@ -123,7 +124,7 @@ class LittleEndian extends Encoder
     /**
      * @inheritDoc
      */
-    public function readString() : string
+    public function readString(string $name = "") : string
     {
         $length = $this->readShort();
         $str    = "";
@@ -138,7 +139,7 @@ class LittleEndian extends Encoder
     /**
      * @inheritDoc
      */
-    public function readShort() : int
+    public function readShort(string $name = "") : int
     {
         $b2 = $this->readByte() << 8;
         $b1 = $this->readByte() << 0;
@@ -149,7 +150,7 @@ class LittleEndian extends Encoder
     /**
      * @inheritDoc
      */
-    public function readInteger() : int
+    public function readInteger(string $name = "") : int
     {
         $b4 = $this->readByte() << 24;
         $b3 = $this->readByte() << 16;
@@ -162,7 +163,7 @@ class LittleEndian extends Encoder
     /**
      * @inheritDoc
      */
-    public function readBoolean() : bool
+    public function readBoolean(string $name = "") : bool
     {
         return ($this->readByte() == 1) ? true : false;
     }
@@ -170,7 +171,7 @@ class LittleEndian extends Encoder
     /**
      * @inheritDoc
      */
-    public function readByte() : int
+    public function readByte(string $name = "") : int
     {
         return $this->_inputBuffer[$this->_i++];
     }
@@ -178,11 +179,11 @@ class LittleEndian extends Encoder
     /**
      * @inheritDoc
      */
-    public function readByteArray(int $legnth) : array
+    public function readByteArray(int $length, string $name = "") : array
     {
         $bytes = [];
 
-        for($i = 0; $i < $legnth; $i++) {
+        for($i = 0; $i < $length; $i++) {
             $bytes[] = $this->readByte();
         }
 

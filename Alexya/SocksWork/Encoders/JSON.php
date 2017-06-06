@@ -5,6 +5,7 @@ use \Alexya\SocksWork\Encoder;
 
 /**
  * JSON encoder.
+ * =============
  *
  * Encodes the data from and to json.
  *
@@ -36,7 +37,7 @@ class JSON extends Encoder
     /**
      * @inheritdoc
      */
-    public function read()
+    public function read() : void
     {
         $this->_inputBuffer = json_decode($this->_rawInput);
     }
@@ -44,14 +45,14 @@ class JSON extends Encoder
     /**
      * @inheritdoc
      */
-    public function write()
+    public function write() : void
     {
     }
 
     /**
      * @inheritdoc
      */
-    public function witeString(string $str, string $name = "")
+    public function writeString(string $str, string $name = "") : void
     {
         $this->_outputBuffer[$name] = $str;
     }
@@ -60,7 +61,7 @@ class JSON extends Encoder
     /**
      * @inheritdoc
      */
-    public function writeShort(int $s, string $name = "")
+    public function writeShort(int $s, string $name = "") : void
     {
         $this->_outputBuffer[$name] = $s;
     }
@@ -68,7 +69,7 @@ class JSON extends Encoder
     /**
      * @inheritdoc
      */
-    public function writeInteger(int $i, string $name = "")
+    public function writeInteger(int $i, string $name = "") : void
     {
         $this->_outputBuffer[$name] = $i;
     }
@@ -76,7 +77,7 @@ class JSON extends Encoder
     /**
      * @inheritdoc
      */
-    public function writeBoolean(bool $b, string $name = "")
+    public function writeBoolean(bool $b, string $name = "") : void
     {
         $this->_outputBuffer[$name] = $b;
     }
@@ -84,7 +85,7 @@ class JSON extends Encoder
     /**
      * @inheritdoc
      */
-    public function writeByte(int $byte, string $name = "")
+    public function writeByte(int $byte, string $name = "") : void
     {
         $this->_outputBuffer[$name] = $byte;
     }
@@ -92,7 +93,7 @@ class JSON extends Encoder
     /**
      * @inheritdoc
      */
-    public function writeByteArray(array $bytes, string $name = "")
+    public function writeByteArray(array $bytes, string $name = "") : void
     {
         $this->_outputBuffer = array_merge($this->_outputBuffer, $bytes);
     }
@@ -103,7 +104,7 @@ class JSON extends Encoder
      * @param array  $array Array to add
      * @param string $name  Array name
      */
-    public function writeArray(array $array, string $name = "")
+    public function writeArray(array $array, string $name = "") : void
     {
         $this->_outputBuffer[$name] = $array;
     }
@@ -151,7 +152,7 @@ class JSON extends Encoder
     /**
      * @inheritdoc
      */
-    public function readByteArray(int $legnth, string $name = "") : array
+    public function readByteArray(int $length, string $name = "") : array
     {
         return $this->_inputBuffer[$name];
     }
